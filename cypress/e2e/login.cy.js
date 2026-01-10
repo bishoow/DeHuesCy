@@ -6,13 +6,13 @@
 // });
 import Login from '../POMpages/Login';
 describe('Login Page Tests', () => {
-  it ('should load the login page', () => {
+  it ('Tc-101 should load the login page', () => {
     cy.visit("http://localhost:3000/login");
-   
     const ln =new Login();
     ln.Title();
-    ln.Username="admin";
-    ln.Password="admin123";
+    ln.Username="Shresthabishow11@gmail.com";
+    ln.Password="bishow11";
     ln.clickSignIn();
-  })
+  
+})
 });

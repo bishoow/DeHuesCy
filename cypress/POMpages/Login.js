@@ -1,11 +1,11 @@
 class Login{
-    CheckTitle=".text-5xl.font-bold.mb-4";
-    UsernameField='input[name="Username"]';
-    PasswordField='input[name="Password"]';
+    CheckTitle=".text-2xl.sm\\:text-3xl.font-bold";
+    UsernameField='input[placeholder="Enter your email"]';
+    PasswordField='input[placeholder="Enter password"]';
     SignInBtn='button[type="submit"]';
     
     Title(){
-     cy.get(this.CheckTitle).should("have.text", 'De Heus');
+     cy.get(this.CheckTitle).eq(0).should("have.text", 'De Heus');
     }
 
     set Username(username){
@@ -18,4 +18,4 @@ class Login{
         cy.get(this.SignInBtn).click();
     }
 }
-export default Login();
+export default Login;
