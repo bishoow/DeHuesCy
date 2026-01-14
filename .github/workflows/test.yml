@@ -1,10 +1,13 @@
-name: Cypress E2E Tests
+name: Cypress E2E Automation
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main, master ]
+  schedule:
+    # Run every day at 9:00 AM Nepal time (≈03:15 UTC)
+    - cron: '15 3 * * *'
 
 jobs:
   cypress-run:
@@ -14,53 +17,46 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22   # upgraded for compatibility with Cypress 14 & reporters
+          node-version: 20
 
       - name: Install dependencies
         run: npm ci
 
-      # 👇 Create .env file from your GitHub secret (named Env)
-      - name: Create .env file from GitHub secret
-        run: echo "${{ secrets.Env }}" > .env
+      - name: Run Cypress E2E tests (Headless)
+        run: npx cypress run --reporter mochawesome
 
-      # 👇 Optional: debug (safe) to verify env loaded properly
-      - name: Verify .env file (no secrets printed)
-        run: grep -E 'CYPRESS_|^#' .env || true
-
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
-        with:
-          command: npx cypress run
-          browser: chrome
-          record: false
-          parallel: true
-          group: "GitHub Action Tests"
-        env:
-          DOTENV_CONFIG_PATH: .env   # let Cypress read your .env variables
-
-      # Upload screenshots if tests fail
-      - name: Upload screenshots
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-
-      # Upload videos
-      - name: Upload videos
+      - name: Merge and Generate Mochawesome HTML Report
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-videos
-          path: cypress/videos
+        run: |
+          npx mochawesome-merge cypress/reports/*.json > mochawesome.json
+          npx marge mochawesome.json --reportDir cypress/reports --inline
 
-      # Upload Mochawesome/HTML reports
-      - name: Upload test reports
+      - name: Send email report (pass/fail)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: dawidd6/action-send-mail@v3
         with:
-          name: cypress-reports
-          path: cypress/reports
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.GMAIL_USER }}
+          password: ${{ secrets.GMAIL_PASS }}
+          subject: |
+            Cypress Test Report – De Heus Surveyor (Status: ${{ job.status }})
+          to: proshore.qa.bootcamp@gmail.com
+          from: De Heus QA Bot <proshore.qa.bootcamp@gmail.com>
+          body: |
+            Hello QA Team,
+
+            The latest scheduled Cypress test run for the De Heus Surveyor app has completed.
+
+            Repository: ${{ github.repository }}
+            Run Time: ${{ github.run_started_at }}
+            Run Status: ${{ job.status }}
+
+            Please find the detailed Mochawesome test report attached.
+
+            Regards,
+            De Heus QA Automation
+          attachments: cypress/reports/mochawesome.html
