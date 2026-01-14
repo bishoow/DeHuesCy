@@ -3,7 +3,7 @@ import Login from '../POMpages/Login';
 describe('Login Page Tests', () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000/login");
+    cy.visit("https://bootcamp-frontend.proshore.site");
   });
 
 //   it('TC-101: Should verify login functionality with invalid credentials', () => {
