@@ -87,8 +87,8 @@ class Login {
   }
 
 
-  BruteForceThrottle(email, password, attempts = 6) {
-    for (let i = 0; i < attempts; i++) {
+  BruteForceThrottle(email, password) {
+    for (let i = 0; i<=6; i++) {
       this.Username = email;
       this.Password = password;
       this.clickSignIn();

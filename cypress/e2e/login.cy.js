@@ -3,7 +3,7 @@ import Login from '../POMpages/Login';
 describe('Login Page Tests', () => {
 
   beforeEach(() => {
-    cy.visit("https://bootcamp-frontend.proshore.site");
+    cy.visit("https://bootcamp-frontend.proshore.site/login");
   });
 
 //   it('TC-101: Should verify login functionality with invalid credentials', () => {
@@ -33,38 +33,38 @@ describe('Login Page Tests', () => {
     cy.url().should('include', '/login');
   });
 
-  it('TC_Login_006–009: Verify brand name and title', () => {
+  it('TC_Login_002: Verify brand name and title', () => {
     const ln = new Login();
     ln.verifyBrand();
   });
 
-  it('TC_Login_013–028: Verify placeholders and focus order', () => {
+  it('TC_Login_003: Verify placeholders and focus order', () => {
     const ln = new Login();
     ln.verifyFocusOrder();
   });
 
-  it('TC_Login_103: Verify login without credentials', () => {
+  it('TC_Login_004: Verify login without credentials', () => {
     const ln = new Login();
     ln.WithoutCredentials();
   });
-
-  it('TC_Login_104: Verify invalid credentials handling', () => {
+//not handled properly for now
+  it('TC_Login_005: Verify invalid credentials handling', () => {
     const ln = new Login();
     ln.InvalidCredentials("invalidemail@gmail.com", "wrongpass");
   });
 
-  it('TC_Login_105: Verify valid login works correctly', () => {
+  it('TC_Login_006: Verify valid login works correctly', () => {
     const ln = new Login();
-    ln.ValidLogin("testuser@gmail.com", "test123");
+    ln.ValidLogin("johndoe@deheus.com", "johndoe@123");
   });
 
   
-  it('TC_Login_051: Verify XSS protection', () => {
+  it('TC_Login_007: Verify XSS protection', () => {
     const ln = new Login();
     ln.XssInjectionTest('<script>alert("XSS")</script>');
   });
 
-  it('TC_Login_057–TC_Login_062: Verify SQL injection protection', () => {
+  it('TC_Login_008: Verify SQL injection protection', () => {
     const ln = new Login();
     const payloads = [
       "' OR '1'='1",
@@ -79,7 +79,7 @@ describe('Login Page Tests', () => {
     });
   });
 
-  it('TC_Login_063–TC_Login_064: Verify brute-force throttle protection', () => {
+  it('TC_Login_009: Verify brute-force throttle protection', () => {
     const ln = new Login();
     ln.BruteForceThrottle("invalid@user.com", "wrongpass", 6);
   });
