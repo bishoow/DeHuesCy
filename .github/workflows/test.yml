@@ -46,6 +46,7 @@ jobs:
       # 7️⃣ Send Mochawesome HTML report via email
       - name: Send email report (pass/fail)
         if: always()
+        run: sleep 5
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
