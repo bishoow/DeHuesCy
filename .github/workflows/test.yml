@@ -8,32 +8,42 @@ on:
   schedule:
     # Run every day at 9:00 AM Nepal time (≈03:15 UTC)
     - cron: '15 3 * * *'
+  workflow_dispatch:
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Create report directory (in case it doesn’t exist)
+      - name: Create report directory
+        run: mkdir -p cypress/reports/html
+
+      # 5️⃣ Run Cypress with cypress-mochawesome-reporter
       - name: Run Cypress E2E tests (Headless)
-        run: npx cypress run --reporter mochawesome
-
-      - name: Merge and Generate Mochawesome HTML Report
-        if: always()
         run: |
-          npx mochawesome-merge cypress/reports/*.json > mochawesome.json
-          npx marge mochawesome.json --reportDir cypress/reports --inline
+          npx cypress run --reporter cypress-mochawesome-reporter
 
+      # 6️⃣ List generated reports (for debugging)
+      - name: List generated report files
+        if: always()
+        run: ls -R cypress/reports || echo "No reports found"
+
+      # 7️⃣ Send Mochawesome HTML report via email
       - name: Send email report (pass/fail)
         if: always()
         uses: dawidd6/action-send-mail@v3
@@ -49,7 +59,7 @@ jobs:
           body: |
             Hello QA Team,
 
-            The latest scheduled Cypress test run for the De Heus Surveyor app has completed.
+            The latest Cypress test run for the De Heus Surveyor app has completed.
 
             Repository: ${{ github.repository }}
             Run Time: ${{ github.run_started_at }}
@@ -59,4 +69,4 @@ jobs:
 
             Regards,
             De Heus QA Automation
-          attachments: cypress/reports/mochawesome.html
+          attachments: cypress/reports/html/index.html
