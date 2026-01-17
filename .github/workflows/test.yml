@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main, master ]
   schedule:
-    - cron: '15 3 * * *'  # 9:00 AM Nepal time
+    - cron: '15 3 * * *'  # Runs at 9:00 AM Nepal time
   workflow_dispatch:
 
 jobs:
@@ -25,35 +25,36 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Create reports directory (ensure it exists)
       - name: Create reports directory
         run: mkdir -p cypress/reports/html
 
-      # 👉 Run Cypress E2E tests
-      - name: Run Cypress E2E tests (Headless)
+
+      - name: Run Cypress Tests
         run: npx cypress run --reporter cypress-mochawesome-reporter
 
-      # 👉 Generate final HTML report
-      - name: Generate final Mochawesome report
+      - name: Merge Mochawesome JSON reports
         if: always()
-        run: npx cypress-mochawesome-reporter --reportDir cypress/reports/html
+        run: npx mochawesome-merge cypress/reports/html/*.json > cypress/reports/html/output.json
 
-      # Verify the generated report
+   
+      - name: Generate final Mochawesome HTML report
+        if: always()
+        run: npx marge cypress/reports/html/output.json --reportDir cypress/reports/html --inline --charts
+
       - name: Verify generated report
         if: always()
         run: |
           echo "Generated report files:"
           ls -lh cypress/reports/html/
           echo "Preview first 20 lines of HTML file:"
-          head -n 20 cypress/reports/html/index.html || echo "No HTML content!"
+          head -n 20 cypress/reports/html/output.html || echo "No HTML content!"
 
-      # Short delay (ensure file writes complete)
+    
       - name: Wait for report generation
         if: always()
         run: sleep 5
 
-      # 👉 Send email with report attached
-      - name: Send email report (pass/fail)
+      - name: Send Email Report
         if: always()
         uses: dawidd6/action-send-mail@v3
         with:
@@ -74,8 +75,8 @@ jobs:
             Run Time: ${{ github.run_started_at }}
             Run Status: ${{ job.status }}
 
-            Please find the detailed Mochawesome test report attached.
+            Please find the detailed Mochawesome test report (with screenshots) attached.
 
             Regards,
             De Heus QA Automation
-          attachments: cypress/reports/html/index.html
+          attachments: cypress/reports/html/output.html

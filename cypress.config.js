@@ -2,15 +2,15 @@ const { defineConfig } = require('cypress');
 require('dotenv').config(); // load .env file
 
 module.exports = defineConfig({
-  // ✅ Reporter configuration
   reporter: 'cypress-mochawesome-reporter',
   reporterOptions: {
-    reportDir: 'cypress/reports/html', // match your workflow path
-    overwrite: true,
+    reportDir: 'cypress/reports/html',
+    overwrite: false,
     html: true,
-    json: false,
-    inline: true, // ✅ embed CSS & JS so email attachment works
-    charts: true, // optional – adds pass/fail charts to HTML
+    json: true,                  // ✅ Needed for merge
+    embeddedScreenshots: true,   // ✅ Include screenshots inline
+    inlineAssets: true,          // ✅ Inline CSS/JS & images
+    charts: true,                // Optional – adds summary charts
   },
 
   e2e: {
@@ -22,12 +22,8 @@ module.exports = defineConfig({
     },
 
     setupNodeEvents(on, config) {
-      // ✅ Initialize the Mochawesome reporter plugin
       require('cypress-mochawesome-reporter/plugin')(on);
-
-      // Optional: log environment variables for debugging
       console.log('Loaded ENV:', config.env);
-
       return config;
     },
   },
