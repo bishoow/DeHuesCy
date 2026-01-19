@@ -70,12 +70,12 @@ jobs:
             Dear Team,
 
             The latest automated Cypress test execution for the De Heus Surveyor application has been completed successfully.
-              Repository: ${{ github.repository }}
-              Run Start Time: ${{ github.run_started_at }}
-              Execution Status: ${{ job.status }}
-              Please find the attached Mochawesome HTML test report containing detailed results, including screenshots and logs for reference.
+            Repository: ${{ github.repository }}
+            Run Start Time: ${{ github.run_started_at }}
+            Execution Status: ${{ job.status }}
+            Please find the attached Mochawesome HTML test report containing detailed results, including screenshots and logs for reference.
 
-              Steps to View the Report:
+            Steps to View the Report:
 
               1. Download the attached file named index.html.
               2. Locate the file in your system’s Downloads or chosen save folder.
@@ -91,4 +91,3 @@ jobs:
                De Heus QA Automation Team
           attachments: cypress/reports/html/index.html
           secure: true
-          
