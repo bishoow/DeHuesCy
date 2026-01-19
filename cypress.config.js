@@ -7,10 +7,10 @@ module.exports = defineConfig({
     reportDir: 'cypress/reports/html',
     overwrite: false,
     html: true,
-    json: true,                  // ✅ Needed for merge
-    embeddedScreenshots: true,   // ✅ Include screenshots inline
-    inlineAssets: true,          // ✅ Inline CSS/JS & images
-    charts: true,                // Optional – adds summary charts
+    json: true,                  
+    embeddedScreenshots: true,   
+    inlineAssets: true,          
+    charts: true,                
   },
 
   e2e: {

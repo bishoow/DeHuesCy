@@ -3,7 +3,8 @@ import Login from '../POMpages/Login';
 describe('Login Page Tests', () => {
 
   beforeEach(() => {
-    cy.visit("https://bootcamp-frontend.proshore.site/login");
+    // cy.visit("https://bootcamp-frontend.proshore.site/login");
+    cy.visit("/login");
   });
 
 //   it('TC-101: Should verify login functionality with invalid credentials', () => {
@@ -58,13 +59,27 @@ describe('Login Page Tests', () => {
     ln.ValidLogin("johndoe@deheus.com", "johndoe@123");
   });
 
+    it('TC_Login_007: Verify valid uppercase email works correctly', () => {
+    const ln = new Login();
+    ln.ValidLogin("JOHNDOE@deheus.com", "johndoe@123");
+  });
+  it('TC_Login_008: Verify valid uppercase password works correctly', () => {
+    const ln = new Login();
+    ln.ValidLogin("johndoe@deheus.com", "JOHNDOE@123");
+  });
+
+   it('TC_Login_009: Verify valid uppercase (email,password ) login works correctly', () => {
+    const ln = new Login();
+    ln.ValidLogin("JOHNDOE@deheus.com", "JOHNDOE@123");
+  });
+
   
-  it('TC_Login_007: Verify XSS protection', () => {
+  it('TC_Login_010: Verify XSS protection', () => {
     const ln = new Login();
     ln.XssInjectionTest('<script>alert("XSS")</script>');
   });
 
-  it('TC_Login_008: Verify SQL injection protection', () => {
+  it('TC_Login_011: Verify SQL injection protection', () => {
     const ln = new Login();
     const payloads = [
       "' OR '1'='1",
@@ -79,7 +94,7 @@ describe('Login Page Tests', () => {
     });
   });
 
-  it('TC_Login_009: Verify brute-force throttle protection', () => {
+  it('TC_Login_012: Verify brute-force throttle protection', () => {
     const ln = new Login();
     ln.BruteForceThrottle("invalid@user.com", "wrongpass", 6);
   });

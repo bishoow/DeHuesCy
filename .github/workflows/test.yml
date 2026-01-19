@@ -67,16 +67,28 @@ jobs:
           to: proshore.qa.bootcamp@gmail.com
           from: De Heus QA Bot <proshore.qa.bootcamp@gmail.com>
           body: |
-            Hello QA Team,
+            Dear Team,
 
-            The latest Cypress test run for the De Heus Surveyor app has completed.
+            The latest automated Cypress test execution for the De Heus Surveyor application has been completed successfully.
+              Repository: ${{ github.repository }}
+              Run Start Time: ${{ github.run_started_at }}
+              Execution Status: ${{ job.status }}
+              Please find the attached Mochawesome HTML test report containing detailed results, including screenshots and logs for reference.
 
-            Repository: ${{ github.repository }}
-            Run Time: ${{ github.run_started_at }}
-            Run Status: ${{ job.status }}
+              Steps to View the Report:
 
-            Please find the detailed Mochawesome test report (with screenshots) attached.
+              1. Download the attached file named index.html.
+              2. Locate the file in your system’s Downloads or chosen save folder.
+              3. Open the file using your preferred web browser (such as Google Chrome, Microsoft Edge, or Firefox).
+              4. The report will open in the browser, showing:
+                 a.Test summaries and overall pass/fail status
+                 b.Detailed test case information
+                 c.Embedded screenshots and logs
 
-            Regards,
-            De Heus QA Automation
+                If you experience any issues viewing the report or have questions regarding the test results, please contact the QA Automation Team.
+
+               Best regards,
+               De Heus QA Automation Team
           attachments: cypress/reports/html/index.html
+          secure: true
+          
