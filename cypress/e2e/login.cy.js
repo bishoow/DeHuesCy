@@ -6,29 +6,6 @@ describe('Login Page Tests', () => {
     // cy.visit("https://bootcamp-frontend.proshore.site/login");
     cy.visit("/login");
   });
-
-//   it('TC-101: Should verify login functionality with invalid credentials', () => {
-//     const ln = new Login();
-//     ln.Title();
-//     ln.Username = "Shresthabishow11gmail.com";
-//     ln.Password = "bishow11";
-//     ln.clickSignIn();
-//   });
-
-//   it('TC-102: Should navigate fields with Tab key and verify placeholders', () => {
-//     const ln = new Login();
-//     ln.verifyTabNavigation(); 
-//   });
-
-//   it('TC-103:To verify login without credentials', () => {
-//     const ln = new Login();
-//     ln.WithoutCredentials();
-    
-
-
-//   });
-// });
-
   it('TC_Login_001: Verify login page URL accessibility', () => {
     const ln = new Login();
     cy.url().should('include', '/login');
@@ -63,14 +40,15 @@ describe('Login Page Tests', () => {
     const ln = new Login();
     ln.ValidLogin("JOHNDOE@deheus.com", "johndoe@123");
   });
-  it('TC_Login_008: Verify valid uppercase password works correctly', () => {
+  it('TC_Login_008: Verify valid uppercase password doesnot work', () => {
     const ln = new Login();
-    ln.ValidLogin("johndoe@deheus.com", "JOHNDOE@123");
+    ln.InvalidCredentials("johndoe@deheus.com", "JOHNDOE@123");
+   
   });
 
    it('TC_Login_009: Verify valid uppercase (email,password ) login works correctly', () => {
     const ln = new Login();
-    ln.ValidLogin("JOHNDOE@deheus.com", "JOHNDOE@123");
+    ln.InvalidCredentials("JOHNDOE@deheus.com", "JOHNDOE@123");
   });
 
   
@@ -96,8 +74,52 @@ describe('Login Page Tests', () => {
 
   it('TC_Login_012: Verify brute-force throttle protection', () => {
     const ln = new Login();
-    ln.BruteForceThrottle("invalid@user.com", "wrongpass", 6);
+    ln.BruteForceThrottle("invalid@user.com", "wrongpass");
+    // cy.contains('Too many login attempts. Please try again in')
+    //   .should('be.visible');
   });
+
+  it('TC-Login-013: Should navigate fields with Tab key and verify placeholders', () => {
+    const ln = new Login();
+    ln.verifyTabNavigation(); 
+  });
+
+
+  //
+    it('TC_Login_014: Verify invalid email format', () => {
+    const ln = new Login();
+    ln.InvalidEmailFormat("abc@.com");
+  });
+
+  it('TC_Login_015: Verify empty email only', () => {
+    const ln = new Login();
+    ln.EmptyEmailOnly("password123");
+  });
+
+  it('TC_Login_016: Verify empty password only', () => {
+    const ln = new Login();
+    ln.EmptyPasswordOnly("johndoe@deheus.com");
+  });
+
+  it('TC_Login_017: Verify whitespace-only input', () => {
+    const ln = new Login();
+    ln.WhitespaceInput();
+  });
+
+  it('TC_Login_018: Verify short password validation', () => {
+    const ln = new Login();
+    ln.ShortPassword("johndoe@deheus.com");
+  });
+
+  it('TC_Login_019: Verify long input validation', () => {
+    const ln = new Login();
+    ln.LongInputTest();
+  });
+
+  // it.only('TC_Login_020: Verify multiple click protection', () => {
+  //   const ln = new Login();
+  //   ln.MultipleClickTest("johndoe@deheus.com", "wrongpass");
+  // });
 
 });
 
