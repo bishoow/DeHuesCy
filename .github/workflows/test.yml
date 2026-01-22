@@ -81,9 +81,9 @@ jobs:
               2. Locate the file in your system’s Downloads or chosen save folder.
               3. Open the file using your preferred web browser (such as Google Chrome, Microsoft Edge, or Firefox).
               4. The report will open in the browser, showing:
-                 a.Test summaries and overall pass/fail status
-                 b.Detailed test case information
-                 c.Embedded screenshots and logs
+                 a. Test summaries and overall pass/fail status
+                 b. Detailed test case information
+                 c. Embedded screenshots and logs
 
                 If you experience any issues viewing the report or have questions regarding the test results, please contact the QA Automation Team.
 
