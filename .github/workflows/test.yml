@@ -2,9 +2,9 @@ name: Cypress E2E Automation
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ master ]
   schedule:
     - cron: '15 3 * * *'  # Runs at 9:00 AM Nepal time
   workflow_dispatch:
