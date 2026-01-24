@@ -185,7 +185,6 @@ verifyTabNavigation() {
   cy.focused()
     .should('have.attr', 'placeholder', 'Enter password');
 
-  // Press Tab again should move focus to Sign In button
   cy.focused().tab();
   cy.focused()
     .should('have.attr', 'type', 'button');
