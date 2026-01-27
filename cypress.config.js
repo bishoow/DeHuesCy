@@ -1,16 +1,18 @@
-const { defineConfig } = require('cypress');
-require('dotenv').config(); // load .env file
+const { defineConfig } = require("cypress");
+require("dotenv").config(); // load .env file
 
 module.exports = defineConfig({
-  reporter: 'cypress-mochawesome-reporter',
+  projectId: 'v1pngi',
+  reporter: "cypress-mochawesome-reporter",
+
   reporterOptions: {
-    reportDir: 'cypress/reports/html',
+    reportDir: "cypress/reports/html",
     overwrite: false,
     html: true,
-    json: true,                  
-    embeddedScreenshots: true,   
-    inlineAssets: true,          
-    charts: true,                
+    json: true,
+    embeddedScreenshots: true,
+    inlineAssets: true,
+    charts: true,
   },
 
   e2e: {
@@ -22,9 +24,16 @@ module.exports = defineConfig({
     },
 
     setupNodeEvents(on, config) {
-      require('cypress-mochawesome-reporter/plugin')(on);
-      console.log('Loaded ENV:', config.env);
+      require("cypress-mochawesome-reporter/plugin")(on);
+      console.log("Loaded ENV:", config.env);
       return config;
+    },
+  },
+
+  component: {
+    devServer: {
+      framework: "next",
+      bundler: "webpack",
     },
   },
 });

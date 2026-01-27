@@ -1,12 +1,12 @@
-class Login {
+class AdminLogin {
   
-  CheckTitle = ".text-2xl.sm\\:text-3xl.font-bold";
-  UsernameField = 'input[placeholder="Enter your email"]';
-  PasswordField = 'input[placeholder="Enter password"]';
+//   CheckTitle = ".text-xl.font-mediumd";
+  UsernameField = "input[placeholder='email@example.com']";
+  PasswordField = '#password';
   SignInBtn = 'button[type="submit"]';
-  ErrorMessage = '.absolute.text-xs.text-red-600';
-  LoginCardTitle = '.text-primary-blue';
-  LCSubtitleText = '.text-base';
+  ErrorMessage = '.text-sm.text-red-600.dark:text-red-400.absolute.mt-0.5';
+  LoginCardTitle = '.text-xl.font-mediumd';
+  LCSubtitleText = '.text-muted-foreground.text-center.text-sm';
 
   Title() {
     cy.get(this.CheckTitle).eq(0).should("have.text", "De Heus");
@@ -200,4 +200,4 @@ verifyTabNavigation() {
   
 }
 
-export default Login;
+export default AdminLogin;
