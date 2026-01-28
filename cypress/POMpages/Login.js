@@ -44,6 +44,7 @@ class Login {
     this.Username = email;
     this.Password = password;
     this.clickSignIn();
+    cy.wait(2000);
     cy.url().should("not.include", "/login");
   }
 
