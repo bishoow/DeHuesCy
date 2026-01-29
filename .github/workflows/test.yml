@@ -14,8 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        containers: [1, 2] # Two parallel instances
 
     steps:
       - name: Checkout repository
@@ -43,20 +41,18 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Merge Mochawesome JSON reports
-        if: always()
-        run: npx mochawesome-merge cypress/reports/html/*.json > cypress/reports/html/index.json
-
       - name: Generate final Mochawesome HTML report
         if: always()
-        run: npx marge cypress/reports/html/index.json --reportDir cypress/reports/html --inline --charts
+        run: |
+          npx mochawesome-merge cypress/reports/html/*.json | npx marge --reportDir cypress/reports/html --inline --charts
+          mv cypress/reports/html/mochawesome.html cypress/reports/html/index.html
 
-      - name: Verify generated report
+      - name: Verify generated HTML report
         if: always()
         run: |
-          echo "Generated report files:"
+          echo "Generated HTML report files:"
           ls -lh cypress/reports/html/
-          head -n 20 cypress/reports/html/index.html || echo "No HTML content!"
+          head -n 20 cypress/reports/html/index.html || echo "No HTML content found!"
 
       - name: Wait for report generation
         if: always()
