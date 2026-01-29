@@ -3,8 +3,8 @@ import Login from '../POMpages/Login';
 describe('Login Page Tests', () => {
 
   beforeEach(() => {
-    // cy.visit("https://bootcamp-frontend.proshore.site/login");
-    cy.visit("/login");
+    cy.visit("https://staging-frontend.proshore.site/login");
+    // cy.visit("/login");
   });
   it('TC_Login_001: Verify login page URL accessibility', () => {
     const ln = new Login();
