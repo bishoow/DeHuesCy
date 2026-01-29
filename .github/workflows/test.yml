@@ -12,8 +12,6 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
 
     steps:
       - name: Checkout repository
@@ -30,30 +28,28 @@ jobs:
       - name: Create reports directory
         run: mkdir -p cypress/reports/html
 
-      - name: Run Cypress Tests (Parallel)
-        uses: cypress-io/github-action@v6
-        with:
-          start: npm start
-          wait-on: 'http://localhost:3000'
-          record: true
-          parallel: true
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run Cypress Tests
+        run: npx cypress run --reporter cypress-mochawesome-reporter
+
+      - name: Merge Mochawesome JSON reports
+        if: always()
+        run: npx mochawesome-merge cypress/reports/html/*.json > cypress/reports/html/index.json
+
+   
       - name: Generate final Mochawesome HTML report
         if: always()
-        run: |
-          npx mochawesome-merge cypress/reports/html/*.json | npx marge --reportDir cypress/reports/html --inline --charts
-          mv cypress/reports/html/mochawesome.html cypress/reports/html/index.html
+        run: npx marge cypress/reports/html/index.json --reportDir cypress/reports/html --inline --charts
 
-      - name: Verify generated HTML report
+      - name: Verify generated report
         if: always()
         run: |
-          echo "Generated HTML report files:"
+          echo "Generated report files:"
           ls -lh cypress/reports/html/
-          head -n 20 cypress/reports/html/index.html || echo "No HTML content found!"
+          echo "Preview first 20 lines of HTML file:"
+          head -n 20 cypress/reports/html/index.html || echo "No HTML content!"
 
+    
       - name: Wait for report generation
         if: always()
         run: sleep 5
@@ -77,14 +73,21 @@ jobs:
             Repository: ${{ github.repository }}
             Run Start Time: ${{ github.run_started_at }}
             Execution Status: ${{ job.status }}
-            Please find the attached Mochawesome HTML test report containing detailed results, including screenshots and logs.
+            Please find the attached Mochawesome HTML test report containing detailed results, including screenshots and logs for reference.
 
             Steps to View the Report:
-              1. Download the attached file named index.html.
-              2. Open it in any web browser (Chrome, Edge, or Firefox).
-              3. View test summaries, details, screenshots, and logs.
 
-            Best regards,  
-            De Heus QA Automation Team
+              1. Download the attached file named index.html.
+              2. Locate the file in your system’s Downloads or chosen save folder.
+              3. Open the file using your preferred web browser (such as Google Chrome, Microsoft Edge, or Firefox).
+              4. The report will open in the browser, showing:
+                 a. Test summaries and overall pass/fail status
+                 b. Detailed test case information
+                 c. Embedded screenshots and logs
+
+                If you experience any issues viewing the report or have questions regarding the test results, please contact the QA Automation Team.
+
+               Best regards,
+               De Heus QA Automation Team
           attachments: cypress/reports/html/index.html
           secure: true
