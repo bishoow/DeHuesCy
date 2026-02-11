@@ -115,11 +115,5 @@ describe('Login Page Tests', () => {
     const ln = new AdminLogin();
     ln.LongInputTest();
   });
-
-  // it.only('TC_Login_020: Verify multiple click protection', () => {
-  //   const ln = new Login();
-  //   ln.MultipleClickTest("johndoe@deheus.com", "wrongpass");
-  // });
-
 });
 
