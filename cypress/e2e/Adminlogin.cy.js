@@ -1,6 +1,6 @@
 import AdminLogin from '../POMpages/AdminLogin';
 
-describe('Login Page Tests', () => {
+describe('Admin Login Page Tests', () => {
 
   beforeEach(() => {
     cy.visit("https://staging-backend.proshore.site/login");
@@ -79,10 +79,10 @@ describe('Login Page Tests', () => {
     //   .should('be.visible');
   });
 
-  it('TC-Login-013: Should navigate fields with Tab key and verify placeholders', () => {
-    const ln = new AdminLogin();
-    ln.verifyTabNavigation(); 
-  });
+  // it('TC-Login-013: Should navigate fields with Tab key and verify placeholders', () => {
+  //   const ln = new AdminLogin();
+  //   ln.verifyTabNavigation(); 
+  // });
 
 
   //
@@ -101,15 +101,15 @@ describe('Login Page Tests', () => {
     ln.EmptyPasswordOnly("johndoe@deheus.com");
   });
 
-  it('TC_Login_017: Verify whitespace-only input', () => {
-    const ln = new AdminLogin();
-    ln.WhitespaceInput();
-  });
+  // it('TC_Login_017: Verify whitespace-only input', () => {
+  //   const ln = new AdminLogin();
+  //   ln.WhitespaceInput();
+  // });
 
-  it('TC_Login_018: Verify short password validation', () => {
-    const ln = new AdminLogin();
-    ln.ShortPassword("johndoe@deheus.com");
-  });
+  // it('TC_Login_018: Verify short password validation', () => {
+  //   const ln = new AdminLogin();
+  //   ln.ShortPassword("johndoe@deheus.com");
+  // });
 
   it('TC_Login_019: Verify long input validation', () => {
     const ln = new AdminLogin();

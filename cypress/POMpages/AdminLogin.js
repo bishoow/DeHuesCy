@@ -204,6 +204,7 @@ verifyTabNavigation() {
   cy.focused().tab();
   cy.focused()
     .should('have.attr', 'type', 'checkbox');
+    cy.focused().tab();
 
   cy.focused().tab();
   cy.focused()

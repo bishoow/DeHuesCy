@@ -1,6 +1,6 @@
 import Login from '../POMpages/Login';
 
-describe('Login Page Tests', () => {
+describe('Surveyor Login Page Tests', () => {
 
   beforeEach(() => {
     cy.visit("https://staging-frontend.proshore.site/login");
