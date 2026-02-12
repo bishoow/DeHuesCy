@@ -63,7 +63,8 @@ jobs:
           username: ${{ secrets.GMAIL_USER }}
           password: ${{ secrets.GMAIL_PASS }}
           subject: |
-            Cypress Test Report – De Heus Surveyor (Status: ${{ job.status }})
+            Cypress Test Report – De Heus 
+            # Surveyor (Status: ${{ job.status }})
           to: proshore.qa.bootcamp@gmail.com
           from: De Heus QA Bot <proshore.qa.bootcamp@gmail.com>
           body: |
@@ -72,7 +73,7 @@ jobs:
             The latest automated Cypress test execution for the De Heus Surveyor application has been completed successfully.
             Repository: ${{ github.repository }}
             Run Start Time: ${{ github.run_started_at }}
-            Execution Status: ${{ job.status }}
+            # Execution Status: ${{ job.status }}
             Please find the attached Mochawesome HTML test report containing detailed results, including screenshots and logs for reference.
 
             Steps to View the Report:
