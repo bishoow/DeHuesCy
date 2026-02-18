@@ -79,12 +79,11 @@ describe('Admin Login Page Tests', () => {
     //   .should('be.visible');
   });
 
-  // it('TC-Login-013: Should navigate fields with Tab key and verify placeholders', () => {
-  //   const ln = new AdminLogin();
-  //   ln.verifyTabNavigation(); 
-  // });
-
-
+  it('TC-Login-013: Should navigate fields with Tab key and verify placeholders', () => {
+    const ln = new AdminLogin();
+    ln.verifyTabNavigation(); 
+  });
+  
   //
     it('TC_Login_014: Verify invalid email format', () => {
     const ln = new AdminLogin();
